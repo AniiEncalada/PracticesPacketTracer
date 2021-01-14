@@ -55,16 +55,24 @@ Ir al Router B
         access-list 100 deny ip any host 192.168.187.36
         access-list 100 permit ip any any
 
+        interface g0/0/0
+        ip access-group 100 out
+
         
 - Bloquear el tráfico https sólo entre la red 192.168.187.64 y el WEB SERVER
 
         access-list 101
 - Bloquear el tráfico ICMP de todas las redes al Server MAIL DNS DHCP.
 
-        access-list 102
+        access-list 102 deny icmp any host 192.168.187.6
+        access-list 102 permit ip any any
+
 - Permitir que el tráfico http del WEB SERVER sólo se pueda acceder desde la PC2(E)
 
-        access-list 103
+        access-list 103 permit tcp host 192.168.187.132 host 192.168.187.5 eq www
+        access-list 103 deny tcp any host 192.168.187.5 eq www
+        access-list 103 permit ip any any
+        
 - Permitir que sólo PC1(E) pueda acceder a las vty del router A.
 
         access-list 104
@@ -74,7 +82,17 @@ Permiten que las ACL extendidas y estándar
 tengan nombres en lugar de números.
 
 Tienen la capacidad de modificar las ACL sin tener que eliminarlas y luego reconfigurarlas.
-- Realizar los ejercicios ACL estándar y extendida, utilizando ACL nombradas
+- Bloquear en tráfico DNS de la PC0(C) a cualquier red
+
+Ir al Router C
+
+        ip access-list extended bloqueoDNS
+        deny tcp host 198.168.187.66 any eq domain
+        deny udp host 198.168.187.66 any eq domain
+        permit ip any any
+
+        interface g0/0/0
+        ip access-group bloqueoDNS in
 
 ### Importante
 <p style=”text-align: justify;”>Las listas de acceso extendidas deben
@@ -82,4 +100,5 @@ colocarse normalmente(en lo posible) lo más cerca posible al del origen de trá
 
 ### Restringir el acceso a las VTY
 
-[img1]: https://github.com/AniiEncalada/PracticesPacketTracer/blob/main/Topolog%C3%ADa.png "Topología de red para ACLs"
+[img1]: https://github.com/AniiEncalada/PracticesPacketTracer/blob/main/galery/Topolog%C3%ADaACL1.png "Topología de red para ACLs 1"
+[img2]: https://github.com/AniiEncalada/PracticesPacketTracer/blob/main/galery/TopologiaACL2.png "Topología de red para ACLs 2"
