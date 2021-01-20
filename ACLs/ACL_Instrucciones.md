@@ -1,10 +1,65 @@
 # ACLs
 Practica de ACLs
 ## ACL Estándar
-- Bloquear el tráfico del pc0 a la red 192.16.5.0
-- Bloquear el tráfico de la red 172.16.4.0 hacia la red 10.10.10.0
-- Permitir que sólo la red 10.10.11.0 se comunique con la red 172.16.2.0
-- Permitir el acceso 172.16.3.32 a la vty del router cuenca
+Realizar las siguientes actividades
+
+- Realizar la configuración de los Routers y la red acorde a los requerimientos indicados en la tabla 1.
+Para empezar a configurar es necesario ejecutar dentro del **CLI del Router**:
+
+        enable
+        configure terminal
+Nombre del Host
+
+        hostname nombre
+Clave del administrador
+
+        enable password mat
+Clave de consola
+
+        line con 0 
+        password consola
+        exit
+Clave vty
+
+        line vty 0 4
+        password mat
+        exit
+Configurar interfaces
+
+1. Debe acceder a la interfaz a configurar
+
+        interface ax/x/x
+2. Para agragar la dirección IP debe usar el comando _ip address_ seguido de la **Dirección IP** y **máscara de red**
+
+        ip address 0.0.0.0 0.0.0.0
+Por tanto:
+
+        interface g0/0/0
+        ip address 172.16.0.0 255.255.254.0
+        exit
+        interface g0/0/1
+        ip address ip address 10.10.10.0 255.255.255.0
+        exit
+
+- Configurar los enlaces seriales; las respectivas direcciones se encuentran en la topología.
+
+Secuencia de pasos para configurar seriales
+
+        router(config)# interface serial <slot/puerto>
+        router(config-if)# ip address <dirección_IP> <máscara>
+        router(config-if)# clock rate <ratio>
+        router(config-if)# no shutdown
+        router(config-if)# exit
+        router(config)# exit
+Aplicandolo
+
+        interface serial 
+- Aplicar el Protocolo RIP para enrutamiento.
+- ACL Estándar:
+    - Bloquear el tráfico del pc0 a la red 192.16.5.0
+    - Bloquear el tráfico de la red 172.16.4.0 hacia la red 10.10.10.0
+    - Permitir que sólo la red 10.10.11.0 se comunique con la red 172.16.2.0
+    - Permitir el acceso 172.16.3.32 a la vty del router cuenca
 ## ACL Extendida
 - Bloquear el tráfico de todas las redes hacia la PCMACHALA02(10.10.11.3).
 - Bloquear el tráfico ICMP de todas las redes al Server Mail – DNS (172.16.0.3).
